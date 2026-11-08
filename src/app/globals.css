@@ -1,0 +1,297 @@
+@import "tailwindcss";
+
+/*
+ * Redefine o variant `dark:` do Tailwind para seguir o data-theme do shell
+ * NewSec (escopado em .ns-shell), em vez do prefers-color-scheme padrao.
+ * Nada fora de src/components/newsec usa `dark:` hoje (conferido antes de
+ * mudar isso globalmente), entao e seguro.
+ */
+@custom-variant dark (&:where(.ns-shell[data-theme="dark"], .ns-shell[data-theme="dark"] *));
+
+:root {
+  --background: #f7f8fa;
+  --foreground: #172033;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  min-height: 100vh;
+  background: var(--background);
+  color: var(--foreground);
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+/*
+ * CRM antigo: como sempre foi. Fora da camada do Tailwind, esta regra vence as classes de tamanho
+ * (text-xs, text-sm...) — por isso NÃO vale dentro do shell novo (.ns-shell), onde o preflight do
+ * Tailwind já herda a fonte e as classes de tamanho precisam funcionar.
+ */
+button:not(.ns-shell *),
+input:not(.ns-shell *) {
+  font: inherit;
+}
+
+/*
+ * Tokens do shell NewSec (especificacao secao 8.3), escopados em `.ns-shell`
+ * para nao colidir com --background/--foreground do CRM existente.
+ * Claro é o padrao; escuro por preferencia do sistema (a menos que o usuario
+ * tenha escolhido claro explicitamente) ou por `data-theme="dark"` explicito.
+ */
+.ns-shell {
+  --ns-bg: #F4F6FB;
+  --ns-surface: #FFFFFF;
+  --ns-surface-alt: #EEF1F8;
+  --ns-surface-hover: #EEF1F8;
+  --ns-text: #11182E;
+  --ns-text-strong: #11182E;
+  --ns-text-secondary: #69738A;
+  --ns-border: #DDE2EC;
+  --ns-primary: #5267F5;
+  --ns-primary-foreground: #FFFFFF;
+  --ns-danger: #E24F63;
+  --ns-warning: #E7A11F;
+  --ns-success: #12A976;
+  color-scheme: light;
+}
+
+@media (prefers-color-scheme: dark) {
+  .ns-shell:not([data-theme="light"]) {
+    --ns-bg: #0B1020;
+    --ns-surface: #12192B;
+    --ns-surface-alt: #182238;
+    --ns-surface-hover: #182238;
+    --ns-text: #F3F6FF;
+    --ns-text-strong: #D7DDED;
+    --ns-text-secondary: #97A3B8;
+    --ns-border: #26314A;
+    --ns-primary: #7385FF;
+    --ns-primary-foreground: #FFFFFF;
+    --ns-danger: #FF7082;
+    --ns-warning: #F4B940;
+    --ns-success: #3DD6A0;
+    color-scheme: dark;
+  }
+}
+
+.ns-shell[data-theme="dark"] {
+  --ns-bg: #0B1020;
+  --ns-surface: #12192B;
+  --ns-surface-alt: #182238;
+  --ns-surface-hover: #182238;
+  --ns-text: #F3F6FF;
+  --ns-text-strong: #D7DDED;
+  --ns-text-secondary: #97A3B8;
+  --ns-border: #26314A;
+  --ns-primary: #7385FF;
+  --ns-primary-foreground: #FFFFFF;
+  --ns-danger: #FF7082;
+  --ns-warning: #F4B940;
+  --ns-success: #3DD6A0;
+  color-scheme: dark;
+}
+
+.ns-shell {
+  background: var(--ns-bg);
+  color: var(--ns-text);
+}
+
+/*
+ * Utilitarios reutilizaveis do shell NewSec — extraidos ao migrar a area
+ * Clientes (primeira area do CRM antigo a virar visual novo, no newseccrm)
+ * depois de ver o mesmo padrao de botao/card/badge se repetir em varios
+ * componentes. Evita reescrever "rounded-lg bg-[var(--ns-primary)]
+ * px-4 py-2.5..." por inteiro em cada arquivo. Escopados em .ns-shell, nao
+ * afetam o CRM antigo.
+ */
+.ns-shell .ns-btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  border-radius: 0.625rem;
+  padding: 0.625rem 1rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  background: var(--ns-primary);
+  color: var(--ns-primary-foreground);
+  transition: opacity 0.15s;
+}
+.ns-shell .ns-btn-primary:hover {
+  opacity: 0.9;
+}
+.ns-shell .ns-btn-primary:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.ns-shell .ns-btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  border-radius: 0.625rem;
+  padding: 0.625rem 1rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  border: 1px solid var(--ns-border);
+  background: var(--ns-surface);
+  color: var(--ns-text);
+  transition: background-color 0.15s;
+}
+.ns-shell .ns-btn-secondary:hover {
+  background: var(--ns-surface-hover);
+}
+.ns-shell .ns-btn-secondary:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.ns-shell .ns-btn-danger {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  border-radius: 0.625rem;
+  padding: 0.625rem 1rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  border: 1px solid color-mix(in srgb, var(--ns-danger) 35%, transparent);
+  background: var(--ns-surface);
+  color: var(--ns-danger);
+  transition: background-color 0.15s;
+}
+.ns-shell .ns-btn-danger:hover {
+  background: color-mix(in srgb, var(--ns-danger) 10%, var(--ns-surface));
+}
+.ns-shell .ns-btn-danger:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+.ns-shell .ns-btn-danger-solid {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  border-radius: 0.625rem;
+  padding: 0.625rem 1rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  background: var(--ns-danger);
+  color: var(--ns-primary-foreground);
+  transition: opacity 0.15s;
+}
+.ns-shell .ns-btn-danger-solid:hover {
+  opacity: 0.9;
+}
+.ns-shell .ns-btn-danger-solid:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.ns-shell .ns-card {
+  border-radius: 0.75rem;
+  border: 1px solid var(--ns-border);
+  background: var(--ns-surface);
+}
+
+.ns-shell .ns-input {
+  width: 100%;
+  border-radius: 0.625rem;
+  border: 1px solid var(--ns-border);
+  background: var(--ns-surface);
+  padding: 0.5rem 0.75rem;
+  font-size: 0.875rem;
+  color: var(--ns-text);
+  outline: none;
+}
+.ns-shell .ns-input:focus-visible {
+  box-shadow: 0 0 0 2px var(--ns-primary);
+}
+.ns-shell .ns-input::placeholder {
+  color: var(--ns-text-secondary);
+}
+
+.ns-shell .ns-badge {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 9999px;
+  border-width: 1px;
+  border-style: solid;
+  padding: 0.125rem 0.5rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+.ns-shell .ns-badge-success {
+  border-color: color-mix(in srgb, var(--ns-success) 35%, transparent);
+  background: color-mix(in srgb, var(--ns-success) 12%, transparent);
+  color: var(--ns-success);
+}
+.ns-shell .ns-badge-danger {
+  border-color: color-mix(in srgb, var(--ns-danger) 35%, transparent);
+  background: color-mix(in srgb, var(--ns-danger) 12%, transparent);
+  color: var(--ns-danger);
+}
+
+/* ---------- Complementos do protótipo do instituto ---------- */
+
+.ns-shell .ns-badge-warning {
+  border-color: color-mix(in srgb, var(--ns-warning) 40%, transparent);
+  background: color-mix(in srgb, var(--ns-warning) 14%, transparent);
+  color: color-mix(in srgb, var(--ns-warning) 70%, var(--ns-text));
+}
+.ns-shell .ns-badge-primary {
+  border-color: color-mix(in srgb, var(--ns-primary) 35%, transparent);
+  background: color-mix(in srgb, var(--ns-primary) 12%, transparent);
+  color: var(--ns-primary);
+}
+.ns-shell .ns-badge-neutral {
+  border-color: var(--ns-border);
+  background: var(--ns-surface-alt);
+  color: var(--ns-text-secondary);
+}
+
+.ns-shell .ns-label {
+  display: block;
+  margin-bottom: 0.375rem;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--ns-text);
+}
+
+.ns-shell .ns-btn-success {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  border-radius: 0.625rem;
+  padding: 0.625rem 1rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  background: var(--ns-success);
+  color: #FFFFFF;
+  transition: opacity 0.15s;
+}
+.ns-shell .ns-btn-success:hover { opacity: 0.9; }
+.ns-shell .ns-btn-success:disabled { opacity: 0.6; cursor: not-allowed; }
+
+/* Campos de formulário no celular: 16px evita o zoom automático do iOS ao focar. */
+@media (max-width: 640px) {
+  .ns-shell .ns-input { font-size: 1rem; padding: 0.625rem 0.75rem; }
+}
+
+.ns-shell select.ns-input { appearance: auto; }
+
+.ns-shell button { cursor: pointer; }
+.ns-shell button:disabled { cursor: not-allowed; }
+
+.ns-shell :is(a, button, summary, [tabindex]):focus-visible {
+  outline: 2px solid var(--ns-primary);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ns-shell * { transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; }
+}

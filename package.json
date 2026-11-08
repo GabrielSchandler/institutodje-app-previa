@@ -1,0 +1,33 @@
+{
+  "name": "institutodje-app",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Protótipo do sistema de cadastro e controle de doações do Instituto Leão da Tribo de Judá D.J.E. (dados fictícios, sem banco).",
+  "scripts": {
+    "dev": "next dev -p 3210",
+    "build": "next build",
+    "start": "next start -p 3210",
+    "lint": "eslint .",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "lucide-react": "^0.488.0",
+    "next": "^15.5.24",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0"
+  },
+  "devDependencies": {
+    "@eslint/eslintrc": "^3.3.1",
+    "@tailwindcss/postcss": "^4.3.3",
+    "@types/node": "^22.14.0",
+    "@types/react": "^19.1.0",
+    "@types/react-dom": "^19.1.1",
+    "eslint": "^9.24.0",
+    "eslint-config-next": "^15.5.24",
+    "tailwindcss": "^4.3.3",
+    "typescript": "^5.8.3"
+  },
+  "overrides": {
+    "postcss": "8.5.26"
+  }
+}
