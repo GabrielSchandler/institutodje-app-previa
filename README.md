@@ -5,6 +5,14 @@ Clickable prototype of a family registration and donation management system for 
 
 [🇧🇷 Português](#-português) · [🇺🇸 English](#-english)
 
+<p align="center">
+  <img src="docs/screenshot-desktop.jpg" alt="Página inicial / Home page — desktop" width="76%">
+  <img src="docs/screenshot-mobile.jpg" alt="Página inicial / Home page — mobile" width="20%">
+  <br><br>
+  <img src="docs/screenshot-login-desktop.jpg" alt="Login — desktop" width="76%">
+  <img src="docs/screenshot-login-mobile.jpg" alt="Login — mobile" width="20%">
+</p>
+
 ---
 
 ## 🇧🇷 Português
